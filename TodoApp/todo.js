@@ -12,6 +12,7 @@ document.getElementById("add").addEventListener("click", () => {
         list.innerHTML=`<span id=tasktext>${text}</span> &nbsp <button id="done">✅</button>
                                 <button id="delete" class="buttons">🗑️</button>`
         document.getElementById("pendingTasks").appendChild(list)
+        saveData()
         c++
         
     }
@@ -22,12 +23,19 @@ document.getElementById("pendingTasks").addEventListener("click",(ev)=>{
         for(let childNode of ev.target.parentNode.childNodes){
             if(childNode.getAttribute('id') === 'tasktext'){
                 childNode.classList.toggle('strike')
+                saveData()
                 break
             }
         }   
     }
     else if(ev.target.getAttribute('id') === "delete"){
         ev.target.parentNode.remove()
+        saveData()
     }
 
 })
+
+function saveData(){
+    localStorage.setItem("data",document.getElementById("pendingTasks").innerHTML)
+}
+document.getElementById("pendingTasks").innerHTML=localStorage.getItem("data");
